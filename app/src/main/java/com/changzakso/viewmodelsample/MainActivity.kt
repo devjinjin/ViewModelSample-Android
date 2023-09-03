@@ -3,16 +3,34 @@ package com.changzakso.viewmodelsample
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.changzakso.viewmodelsample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private val binding: ActivityMainBinding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
+//    [8] data binding을 사용하기 위해서 ViewBinding 제거
+//    private val binding: ActivityMainBinding by lazy {
+//        ActivityMainBinding.inflate(layoutInflater)
+//    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+
+//        [8] data binding을 사용하기 위해서 ViewBinding 제거 + databinding 설정 (전역으로 빼도 된다) + xml 수정 해야함
+//        setContentView(binding.root)
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val factory = MyViewModelFactory(counter = 10, this)
+        val myViewModel : MyViewModel by viewModels<MyViewModel>(){
+            factory
+        }
+        binding.lifecycleOwner = this
+        binding.viewmodel = myViewModel
+
+        binding.button.setOnClickListener {
+            //값만 변경
+            myViewModel.liveCounter.value = myViewModel.liveCounter.value?.plus(1)
+            myViewModel.saveState()
+        }
+
+
 // [1] 뷰모델 없이
 //        var count = 100
 //        binding.textView.text = count.toString()
@@ -96,23 +114,25 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //[7]
-        val factory = MyViewModelFactory(counter = 100, this)
-        val myViewModel : MyViewModel by viewModels<MyViewModel>(){
-            factory
-        }
+//        val factory = MyViewModelFactory(counter = 100, this)
+//        val myViewModel : MyViewModel by viewModels<MyViewModel>(){
+//            factory
+//        }
+//
+//        binding.textView.text =  myViewModel.counter.toString()
+//
+//        binding.button.setOnClickListener {
+//            //값만 변경
+//            myViewModel.liveCounter.value = myViewModel.liveCounter.value?.plus(1)
+//            myViewModel.saveState()
+//        }
+//
+//        myViewModel.modifiedCounter.observe(this){count ->
+//            //실제 화면 업데이트
+//            //값 변경 감지
+//            binding.textView.text = count.toString()
+//        }
 
-        binding.textView.text =  myViewModel.counter.toString()
 
-        binding.button.setOnClickListener {
-            //값만 변경
-            myViewModel.liveCounter.value = myViewModel.liveCounter.value?.plus(1)
-            myViewModel.saveState()
-        }
-
-        myViewModel.modifiedCounter.observe(this){count ->
-            //실제 화면 업데이트
-            //값 변경 감지
-            binding.textView.text = count.toString()
-        }
     }
 }

@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    //[8] data binding
+    id("kotlin-kapt")
 }
 
 android {
@@ -34,7 +36,9 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
-        viewBinding = true
+        //[8] DataBinding 사용
+        dataBinding = true
+    //        viewBinding = true
     }
 }
 
@@ -55,8 +59,9 @@ dependencies {
     //[5] ViewModel이 종료되어도 값유지하기 위한 SavedState
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1")
 
-    //[6]livedata dependency 추가
+    //[6][7]livedata dependency 추가
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+
 
 
     testImplementation("junit:junit:4.13.2")

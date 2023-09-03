@@ -61,6 +61,8 @@ class MyViewModel(
     }
     var counter : Int = savedStateHandle.get<Int>(SAVE_STATE_KEY) ?: initCounter
 
+    //[9] two way data binding
+    val hasChecked : MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
 
     fun saveState(){
         savedStateHandle[SAVE_STATE_KEY] = counter
