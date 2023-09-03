@@ -45,15 +45,18 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    //ViewModel 위한 Dependency
+    //[2][3]ViewModel 위한 Dependency
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
-    //ViewModel 초기화 위임을 위한 dependency
+    //[4]ViewModel 초기화 위임을 위한 dependency
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 
-    //ViewModel이 종료되어도 값유지하기 위한 SavedState
+    //[5] ViewModel이 종료되어도 값유지하기 위한 SavedState
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1")
+
+    //[6]livedata dependency 추가
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
 
 
     testImplementation("junit:junit:4.13.2")

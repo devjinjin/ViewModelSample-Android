@@ -1,9 +1,8 @@
 package com.changzakso.viewmodelsample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import com.changzakso.viewmodelsample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -11,7 +10,6 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -65,6 +63,39 @@ class MainActivity : AppCompatActivity() {
 
         //[5] savedState
         // 테스트 : adb shell am kill com.changzakso.viewmodelsample
+//        val factory = MyViewModelFactory(counter = 100, this)
+//        val myViewModel : MyViewModel by viewModels<MyViewModel>(){
+//            factory
+//        }
+//
+//        binding.textView.text =  myViewModel.counter.toString()
+//
+//        binding.button.setOnClickListener {
+//            myViewModel.counter += 1
+//            binding.textView.text = myViewModel.counter.toString()
+//            myViewModel.saveState()
+//        }
+
+        //[6] live data 사용
+//        val factory = MyViewModelFactory(counter = 100, this)
+//        val myViewModel : MyViewModel by viewModels<MyViewModel>(){
+//            factory
+//        }
+//
+//        binding.textView.text =  myViewModel.counter.toString()
+//
+//        binding.button.setOnClickListener {
+//            //값만 변경
+//            myViewModel.liveCounter.value = myViewModel.liveCounter.value?.plus(1)
+//        }
+//
+//        myViewModel.liveCounter.observe(this){count ->
+//            //실제 화면 업데이트
+//            //값 변경 감지
+//            binding.textView.text = count.toString()
+//        }
+
+//[7]
         val factory = MyViewModelFactory(counter = 100, this)
         val myViewModel : MyViewModel by viewModels<MyViewModel>(){
             factory
@@ -73,9 +104,15 @@ class MainActivity : AppCompatActivity() {
         binding.textView.text =  myViewModel.counter.toString()
 
         binding.button.setOnClickListener {
-            myViewModel.counter += 1
-            binding.textView.text = myViewModel.counter.toString()
+            //값만 변경
+            myViewModel.liveCounter.value = myViewModel.liveCounter.value?.plus(1)
             myViewModel.saveState()
+        }
+
+        myViewModel.modifiedCounter.observe(this){count ->
+            //실제 화면 업데이트
+            //값 변경 감지
+            binding.textView.text = count.toString()
         }
     }
 }
